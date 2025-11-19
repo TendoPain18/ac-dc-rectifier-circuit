@@ -1,12 +1,12 @@
 # AC to DC Rectifier Circuit ⚡🔌
 
-A complete rectifier circuit design that converts 220V AC mains voltage to a stable 5V DC output with less than 2% ripple. This project includes circuit design, simulation, theoretical calculations, and hardware implementation.
+A complete rectifier circuit design that converts 220V AC RMS (311V peak) mains voltage to a stable 5V DC output with less than 2% ripple. This project includes circuit design, simulation, theoretical calculations, and hardware implementation.
 
 [![Watch the video](images/youtube_window_1.png)](YOUR_YOUTUBE_LINK_HERE)
 
 ## 📋 Description
 
-This project demonstrates the complete design and implementation of a rectifier circuit from concept to working hardware. The circuit successfully steps down 220V AC to 5V DC while maintaining ripple voltage below the 2% threshold, making it suitable for powering low-voltage electronic devices.
+This project demonstrates the complete design and implementation of a rectifier circuit from concept to working hardware. The circuit successfully steps down 220V AC RMS to 5V DC while maintaining ripple voltage below the 2% threshold, making it suitable for powering low-voltage electronic devices.
 
 <br>
 <br>
@@ -20,7 +20,7 @@ This project demonstrates the complete design and implementation of a rectifier 
 
 The circuit was designed to meet the following specifications:
 
-1. **Rectify voltage from 220V AC to 5V DC**
+1. **Rectify voltage from 220V AC RMS (311V peak) to 5V DC**
 2. **Maintain ripple voltage < 2%**
 3. **Provide stable output under varying load conditions**
 
@@ -36,7 +36,7 @@ The circuit was designed to meet the following specifications:
 
 | Component | Specification | Quantity |
 |-----------|--------------|----------|
-| Transformer | 220V to 9V AC, 50 Hz | 1 |
+| Transformer | 220V to 9V AC RMS, 50 Hz | 1 |
 | Bridge Rectifier | Silicon Bridge (0.7V drop per diode) | 1 |
 | Filter Capacitor | 2200 μF, 25V (Electrolytic) | 2 |
 | Voltage Regulator | LM7805 (5V, 1A) | 1 |
@@ -60,14 +60,90 @@ The circuit was designed to meet the following specifications:
 ## 📊 Complete Design Calculations
 
 ### Given Components:
-- **Transformer**: 9V AC RMS, 50 Hz
+- **Input Voltage**: 220V AC RMS (311V peak), 50 Hz
+- **Transformer**: 220V to 9V AC RMS, 50 Hz
 - **Bridge Rectifier**: 4 diodes in bridge configuration, silicon (0.7V drop each)
 - **Capacitors**: 2 × 2200 μF (parallel → 4400 μF total)
 - **Voltage Regulator**: LM7805
 - **LED + Resistor**: 330 Ω
 - **Load Currents**: 20 mA (LED test), 100 mA (moderate load)
 
-### Step 1 — Convert RMS to Peak Voltage
+---
+
+## 🔌 Transformer Design & Implementation
+
+### Transformer Turns Ratio Calculation
+
+**Formula:**
+```
+V_secondary / V_primary = N_s / N_p
+```
+
+**Calculation:**
+```
+Turns Ratio = 9 / 220 ≈ 0.0409
+N_s : N_p = 1 : 24.44 ≈ 1 : 25
+```
+
+**Explanation:** The transformer steps down voltage by a factor of ~24.4 from primary to secondary.
+
+---
+
+### LTSpice Transformer Implementation
+
+For simulating an ideal transformer in LTSpice with perfect coupling:
+
+**Step 1: Calculate Inductance Values**
+
+For 50 Hz operation with reactance X_L ≈ 1 kΩ (to minimize loading):
+
+**Primary Inductance (L1):**
+```
+X_L = 2πfL
+L = X_L / (2πf)
+L1 = 1000 / (2π × 50) ≈ 3.18 H
+```
+
+Use: **L1 = 3.2 H**
+
+**Secondary Inductance (L2):**
+```
+L2 = L1 × (N_s/N_p)²
+L2 = 3.2 × (0.0409)²
+L2 ≈ 0.00535 H = 5.35 mH
+```
+
+Use: **L2 = 5.35 mH**
+
+**Step 2: LTSpice Coupling Directive**
+
+To create perfect coupling (k = 1) between inductors:
+```
+K L1 L2 1
+```
+
+**Step 3: Circuit Configuration**
+```
+Primary Side:
+- AC Source: 220V RMS, 50 Hz
+- Inductor L1: 3.2 H
+
+Secondary Side:
+- Inductor L2: 5.35 mH
+- Load: Connected to bridge rectifier
+
+Coupling: K L1 L2 1 (ideal coupling, no leakage)
+```
+
+**Voltage Waveform:**
+
+![Initial AC Voltage](images/voltage_initial.png)
+
+*220V AC RMS (311V peak) mains voltage*
+
+---
+
+### Step 1 — Convert RMS to Peak Voltage (Secondary)
 
 **Formula:**
 ```
@@ -83,13 +159,9 @@ V_peak = 9 × 1.41421356 ≈ 12.7279 V
 
 **Voltage Waveform:**
 
-![Initial AC Voltage](images/voltage_initial.png)
-
-*220V AC mains voltage*
-
 ![After Transformer](images/voltage_transformer.png)
 
-*9V AC after transformer (12.73V peak)*
+*9V AC RMS after transformer (12.73V peak)*
 
 ---
 
@@ -256,8 +328,8 @@ R = (5 - 2) / 0.01 = 3 / 0.01 = 300 Ω
 
 ### Voltage Transformation Stages
 
-1. **AC Input (220V)** → Transformer → **9V AC**
-2. **9V AC** → Bridge Rectifier → **~11.3V DC (with ripple)**
+1. **AC Input (220V RMS / 311V peak)** → Transformer → **9V AC RMS (12.73V peak)**
+2. **9V AC RMS** → Bridge Rectifier → **~11.3V DC (with ripple)**
 3. **~11.3V DC** → Filter Capacitors → **~11.1V DC (smoothed)**
 4. **~11.1V DC** → LM7805 Regulator → **5V DC (stable)**
 
@@ -265,6 +337,8 @@ R = (5 - 2) / 0.01 = 3 / 0.01 = 300 Ω
 
 | Parameter | Specification | Achieved |
 |-----------|--------------|----------|
+| Input Voltage | 220V AC RMS | 220V AC RMS (311V peak) |
+| Transformer Output | 9V AC RMS | 9V AC RMS (12.73V peak) |
 | Output Voltage | 5V DC | 5V ± 0.05V |
 | Ripple Voltage | < 2% | 0.40% (20mA), 2.01% (100mA) |
 | Load Regulation | Good | Excellent |
@@ -281,7 +355,7 @@ R = (5 - 2) / 0.01 = 3 / 0.01 = 300 Ω
 ### Assembly Steps
 
 1. **Safety First**: Disconnect from mains during assembly
-2. **Transformer**: Connect 220V AC primary (with proper insulation)
+2. **Transformer**: Connect 220V AC RMS primary (with proper insulation)
 3. **Bridge Rectifier**: Connect AC input from transformer secondary
 4. **Filter Capacitors**: Connect in parallel across DC output (mind polarity!)
 5. **Voltage Regulator**: Wire LM7805 (Input → Capacitor, Output → Load)
@@ -290,7 +364,7 @@ R = (5 - 2) / 0.01 = 3 / 0.01 = 300 Ω
 
 ### Safety Precautions
 
-⚠️ **WARNING**: This circuit involves mains voltage (220V AC) which can be lethal!
+⚠️ **WARNING**: This circuit involves mains voltage (220V AC RMS / 311V peak) which can be lethal!
 
 - Always disconnect from mains before touching components
 - Use proper insulation for all mains connections
@@ -301,7 +375,7 @@ R = (5 - 2) / 0.01 = 3 / 0.01 = 300 Ω
 
 ## 📁 Project Files
 ```
-rectifier-circuit/
+ac-dc-rectifier-circuit/
 │
 ├── simulation/
 │   ├── rectifier.asc          # LTSpice schematic
@@ -327,11 +401,12 @@ rectifier-circuit/
 This project demonstrates:
 
 1. **Power Supply Design**: Complete AC to DC conversion process
-2. **Component Selection**: Choosing appropriate components for specifications
-3. **Circuit Simulation**: Using LTSpice for circuit analysis
-4. **Practical Implementation**: Building and testing real circuits
-5. **Safety Awareness**: Working with mains voltage safely
-6. **Mathematical Analysis**: Theoretical calculations and verification
+2. **Transformer Design**: Turns ratio calculation and implementation
+3. **Component Selection**: Choosing appropriate components for specifications
+4. **Circuit Simulation**: Using LTSpice for circuit analysis
+5. **Practical Implementation**: Building and testing real circuits
+6. **Safety Awareness**: Working with mains voltage safely
+7. **Mathematical Analysis**: Theoretical calculations and verification
 
 ## 🔄 Potential Improvements
 
@@ -339,7 +414,7 @@ This project demonstrates:
 - Implement short-circuit protection
 - Add input/output filter capacitors near regulator
 - Use switch-mode power supply for better efficiency
-- Add LED indicator for power on status
+- Add fuse protection on primary side
 - Include output terminals for easy connection
 
 ## 🤝 Contributing
@@ -361,6 +436,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Circuit design concepts from power electronics fundamentals
 - LTSpice for circuit simulation
 - Component datasheets from manufacturers
+
+## 📚 References
+
+- LM7805 Datasheet - Texas Instruments
+- "The Art of Electronics" - Horowitz & Hill
+- Power Supply Design Fundamentals
+- Transformer Design Principles
 
 <br>
 <div align="center">
