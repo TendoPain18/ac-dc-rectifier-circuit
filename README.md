@@ -93,6 +93,27 @@ N_s : N_p = 1 : 24.44 ≈ 1 : 25
 
 For simulating an ideal transformer in LTSpice with perfect coupling:
 
+**Inductance-Turns Relationship:**
+
+The inductance of a coil is proportional to the square of the number of turns:
+```
+L ∝ N²
+```
+
+Therefore, the relationship between primary and secondary inductances is:
+```
+L2 / L1 = (N_s / N_p)²
+```
+
+or equivalently:
+```
+L2 = L1 × (N_s / N_p)²
+```
+
+**Explanation:** When the number of turns changes, the inductance changes by the square of that ratio. This is because inductance depends on both the magnetic flux (proportional to N) and the induced voltage (also proportional to N), giving an N² relationship.
+
+---
+
 **Step 1: Calculate Inductance Values**
 
 For 50 Hz operation with reactance X_L ≈ 1 kΩ (to minimize loading):
@@ -107,9 +128,12 @@ L1 = 1000 / (2π × 50) ≈ 3.18 H
 Use: **L1 = 3.2 H**
 
 **Secondary Inductance (L2):**
+
+Using the inductance-turns relationship:
 ```
 L2 = L1 × (N_s/N_p)²
 L2 = 3.2 × (0.0409)²
+L2 = 3.2 × 0.001673
 L2 ≈ 0.00535 H = 5.35 mH
 ```
 
@@ -377,21 +401,17 @@ R = (5 - 2) / 0.01 = 3 / 0.01 = 300 Ω
 ```
 ac-dc-rectifier-circuit/
 │
-├── simulation/
-│   ├── rectifier.asc          # LTSpice schematic
-│   └── rectifier.log          # Simulation results
+├── LTspice/
+│   └── ac-dc-rectifier-circuit.asc    # LTSpice schematic
 │
 ├── images/
-│   ├── circuit_design.png     # Circuit schematic
-│   ├── voltage_initial.png    # Initial waveform
-│   ├── voltage_transformer.png
-│   ├── voltage_bridge.png
-│   ├── voltage_final.png
-│   ├── hardware_circuit.png   # Implemented circuit
-│   └── youtube_window_1.png
-│
-├── calculations/
-│   └── design_calculations.pdf
+│   ├── circuit_design.png             # Circuit schematic
+│   ├── voltage_initial.png            # Initial waveform
+│   ├── voltage_transformer.png        # Transformer output
+│   ├── voltage_bridge.png             # Bridge rectifier output
+│   ├── voltage_final.png              # Final regulated output
+│   ├── hardware_circuit.png           # Implemented circuit
+│   └── youtube_window_1.png           # Demo video thumbnail
 │
 └── README.md
 ```
@@ -401,7 +421,7 @@ ac-dc-rectifier-circuit/
 This project demonstrates:
 
 1. **Power Supply Design**: Complete AC to DC conversion process
-2. **Transformer Design**: Turns ratio calculation and implementation
+2. **Transformer Design**: Turns ratio calculation and inductance relationships
 3. **Component Selection**: Choosing appropriate components for specifications
 4. **Circuit Simulation**: Using LTSpice for circuit analysis
 5. **Practical Implementation**: Building and testing real circuits
@@ -437,12 +457,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - LTSpice for circuit simulation
 - Component datasheets from manufacturers
 
-## 📚 References
-
-- LM7805 Datasheet - Texas Instruments
-- "The Art of Electronics" - Horowitz & Hill
-- Power Supply Design Fundamentals
-- Transformer Design Principles
 
 <br>
 <div align="center">
@@ -452,45 +466,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 </div>
 
 ## <!-- CONTACT -->
-<div id="toc" align="center">
-  <ul style="list-style: none">
-    <summary>
-      <h2 align="center">
-        🚀 CONTACT ME 🚀
-      </h2>
-    </summary>
-  </ul>
-</div>
-
-<table align="center" style="width: 100%; max-width: 600px;">
-  <tr>
-    <td style="width: 20%; text-align: center;">
-      <a href="https://www.linkedin.com/in/amr-ashraf-86457134a/" target="_blank">
-        <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" style="height: 33px; width: 120px;"/>
-      </a>
-    </td>
-    <td style="width: 20%; text-align: center;">
-      <a href="https://github.com/TendoPain18" target="_blank">
-        <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" style="height: 33px; width: 120px;"/>
-      </a>
-    </td>
-    <td style="width: 20%; text-align: center;">
-      <a href="mailto:amrgadalla01@gmail.com">
-        <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" style="height: 33px; width: 120px;"/>
-      </a>
-    </td>
-    <td style="width: 20%; text-align: center;">
-      <a href="https://www.facebook.com/amr.ashraf.7311/" target="_blank">
-        <img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white" style="height: 33px; width: 120px;"/>
-      </a>
-    </td>
-    <td style="width: 20%; text-align: center;">
-      <a href="https://wa.me/201019702121" target="_blank">
-        <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" style="height: 33px; width: 120px;"/>
-      </a>
-    </td>
-  </tr>
-</table>
 
 <!-- END CONTACT -->
 
