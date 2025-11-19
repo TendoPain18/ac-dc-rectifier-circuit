@@ -11,8 +11,8 @@ This project demonstrates the complete design and implementation of a rectifier 
 <br>
 <br>
 <div align="center">
-  <a href="YOUR_DOWNLOAD_LINK_HERE">
-    <img src="https://img.shields.io/badge/Download-Demo-brightgreen?style=for-the-badge&logo=download&logoColor=white" alt="Download Demo" style="height: 50px;"/>
+  <a href="https://github.com/TendoPain18/ac-dc-rectifier-circuit/raw/main/LTspice/ac-dc-rectifier-circuit.asc">
+    <img src="https://img.shields.io/badge/Download-LTspice_File-brightgreen?style=for-the-badge&logo=download&logoColor=white" alt="Download Demo" style="height: 50px;"/>
   </a>
 </div>
 
@@ -460,8 +460,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <br>
 <div align="center">
-  <a href="YOUR_DOWNLOAD_LINK_HERE">
-    <img src="https://img.shields.io/badge/Download-Demo-brightgreen?style=for-the-badge&logo=download&logoColor=white" alt="Download Demo" style="height: 50px;"/>
+  <a href="https://github.com/TendoPain18/ac-dc-rectifier-circuit/raw/main/LTspice/ac-dc-rectifier-circuit.asc">
+    <img src="https://img.shields.io/badge/Download-LTspice_File-brightgreen?style=for-the-badge&logo=download&logoColor=white" alt="Download Demo" style="height: 50px;"/>
   </a>
 </div>
 
