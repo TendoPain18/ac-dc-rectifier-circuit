@@ -1,4 +1,4 @@
-<img width="1057" height="587" alt="image" src="https://github.com/user-attachments/assets/8d43aabb-f61e-4b3d-a338-bb39aa2eb2b6" /># AC to DC Rectifier Circuit ⚡🔌
+# AC to DC Rectifier Circuit ⚡🔌
 
 A complete rectifier circuit design that converts 220V AC RMS (311V peak) mains voltage to a stable 5V DC output with less than 2% ripple. This project includes circuit design, simulation, theoretical calculations, and hardware implementation.
 
